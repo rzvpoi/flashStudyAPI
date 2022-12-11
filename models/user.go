@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"flashStudyAPI/utils/token"
+	"fmt"
 	"html"
 	"strings"
 
@@ -15,6 +16,38 @@ type User struct {
 	Email    string `gorm:"size:255;not null;unique" json:"email"`
 	Username string `gorm:"size:255;not null;unique" json:"username"`
 	Password string `gorm:"size:255;not nulll" json:"password"`
+}
+
+func UpdateUser(uid uint, username string) (string, error) {
+	var u User
+
+	if err := DB.First(&u, uid).Error; err != nil {
+		return "", errors.New("User not found")
+	}
+
+	u.Username = username
+	DB.Save(&u)
+	return "user updated", nil
+}
+
+func ResetPassword(email, password string) (string, error) {
+	var err error
+
+	u := User{}
+
+	err = DB.Model(User{}).Where("email = ?", email).Take(&u).Error
+
+	if err != nil {
+		fmt.Print(err)
+		return "", err
+
+	}
+
+	u.Password = password
+
+	DB.Save(&u)
+
+	return "password updated", nil
 }
 
 func GetUserByID(uid uint) (User, error) {
