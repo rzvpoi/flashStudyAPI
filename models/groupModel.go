@@ -21,14 +21,8 @@ type Group struct {
 func DeleteGroup(uid uint, gid uint) (string, error) {
 	var g Group
 	g.ID = gid
-	fmt.Print(uid, gid)
-	err := DB.Delete(&g, gid).Error
 
-	if err != nil {
-		return "", err
-	}
-
-	err = DB.Unscoped().Delete(&g).Error
+	err := DB.Unscoped().Delete(&g).Error
 
 	if err != nil {
 		return "", err

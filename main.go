@@ -14,6 +14,8 @@ func main() {
 
 	r := gin.Default()
 
+	r.Static("/image", "./public/images-slide")
+
 	public := r.Group("/api")
 
 	public.POST("/register", controllers.Register)
@@ -32,6 +34,13 @@ func main() {
 	protectedGroup.POST("/create", controllers.CreateGroup)
 	protectedGroup.POST("/update", controllers.UpdateGroup)
 	protectedGroup.POST("/delete", controllers.DeleteGroup)
+
+	protectedSlide := r.Group("api/slide")
+	protectedSlide.Use(middlewares.JwtAuthMiddleware())
+	protectedSlide.GET("/", controllers.GetSlide)
+	protectedSlide.POST("/create", controllers.CreateSlide)
+	protectedSlide.POST("/delete", controllers.DeleteSlide)
+	protectedSlide.POST("/update", controllers.UpdateSlide)
 
 	r.Run(":8080")
 
