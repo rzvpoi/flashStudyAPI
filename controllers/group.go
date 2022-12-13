@@ -4,6 +4,7 @@ import (
 	"flashStudyAPI/models"
 	"flashStudyAPI/utils/token"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,29 +24,19 @@ type GroupUpdateInput struct {
 	Color       string `json:"color"`
 }
 
-type GroupDeleteInput struct {
-	Id uint `json:"id" binding:"required"`
-}
-
 func DeleteGroup(c *gin.Context) {
-	user_id, err := token.ExtractTokenID(c)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	id, err := c.GetQuery("id")
+	if err == false {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Param 'id' missing!"})
 		return
 	}
 
-	var input GroupDeleteInput
+	gid, _ := strconv.Atoi(id)
 
-	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+	response, errs := models.DeleteGroup(uint(gid))
 
-	gid := input.Id
-	response, err := models.DeleteGroup(user_id, gid)
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	if errs != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": errs.Error()})
 		return
 	}
 

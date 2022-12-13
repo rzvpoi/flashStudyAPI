@@ -39,8 +39,27 @@ func main() {
 	protectedSlide.Use(middlewares.JwtAuthMiddleware())
 	protectedSlide.GET("/", controllers.GetSlide)
 	protectedSlide.POST("/create", controllers.CreateSlide)
-	protectedSlide.POST("/delete", controllers.DeleteSlide)
 	protectedSlide.POST("/update", controllers.UpdateSlide)
+	protectedSlide.POST("/delete", controllers.DeleteSlide)
+
+	protectedNote := r.Group("api/note")
+	protectedNote.Use(middlewares.JwtAuthMiddleware())
+	protectedNote.GET("/", controllers.GetNote)
+	protectedNote.POST("/create", controllers.CreateNote)
+	protectedNote.POST("/update", controllers.UpdateNote)
+	protectedNote.POST("/delete", controllers.DeleteNote)
+
+	protectedExam := r.Group("api/exam")
+	protectedExam.Use(middlewares.JwtAuthMiddleware())
+	protectedExam.GET("/", controllers.GetExam)
+	protectedExam.POST("/create", controllers.CreateExam)
+	protectedExam.POST("/update", controllers.UpdateExam)
+	protectedExam.POST("/delete", controllers.DeleteExam)
+
+	protectedStats := r.Group("api/stats")
+	protectedStats.Use(middlewares.JwtAuthMiddleware())
+	protectedStats.GET("/", controllers.GetStats)
+	protectedStats.GET("/create", controllers.CreateStats)
 
 	r.Run(":8080")
 

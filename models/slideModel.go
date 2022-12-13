@@ -94,6 +94,14 @@ func CreateSlide(s *Slide) (string, error) {
 		return "", errors.New("Extension not supported")
 	}
 
+	// Verify if groupId exists in the db
+	var queryG Group
+	if err := DB.First(&queryG, s.GroupId).Error; err != nil {
+		return "", errors.New("GroupId not found")
+	}
+
+	//Get latest id from the slide within a specific group
+	//for image nameing
 	var query Slide
 	err := DB.Last(&query, "group_id = ?", s.GroupId).Error
 	if err != nil {
@@ -117,6 +125,11 @@ func CreateSlide(s *Slide) (string, error) {
 func GetSlide(gid int) ([]Slide, error) {
 
 	var s []Slide
+
+	var query Group
+	if err := DB.First(&query, gid).Error; err != nil {
+		return []Slide{}, errors.New("GroupId not found")
+	}
 
 	err := DB.Model(Group{}).Where("group_id = ?", gid).Find(&s).Error
 	if err != nil {

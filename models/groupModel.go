@@ -18,12 +18,16 @@ type Group struct {
 	User        User `gorm:"foreignKey:UserId"`
 }
 
-func DeleteGroup(uid uint, gid uint) (string, error) {
+func DeleteGroup(gid uint) (string, error) {
 	var g Group
 	g.ID = gid
 
-	err := DB.Unscoped().Delete(&g).Error
+	err := DB.First(&g).Error
+	if err != nil {
+		return "", err
+	}
 
+	err = DB.Unscoped().Delete(&g).Error
 	if err != nil {
 		return "", err
 	}
