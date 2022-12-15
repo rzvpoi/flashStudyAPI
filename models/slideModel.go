@@ -44,9 +44,15 @@ func UpdateSlide(uid uint, in *Slide) (string, error) {
 			return "", errors.New("Extension not supported")
 		}
 
-		result := DB.Last(&s, "group_id = ?", s.GroupId)
+		//Get latest id from the slide within a specific group
+		//for image nameing
+		var query Slide
+		err := DB.Last(&query, "group_id = ?", s.GroupId).Error
+		if err != nil {
+			query.ID = 0
+		}
 
-		newFileName = "slide-image_g" + strconv.Itoa(s.GroupId) + "n" + strconv.FormatInt(int64(result.RowsAffected), 10) + ".jpg"
+		newFileName = "slide-image_g" + strconv.Itoa(s.GroupId) + "n" + strconv.Itoa(int(query.ID)+1) + ".jpg"
 
 		s.Image = "image/" + newFileName
 	} else {
@@ -81,39 +87,52 @@ func DeleteSlide(s Slide) (string, error) {
 	return "Group Deleted", nil
 }
 
-func CreateSlide(s *Slide) (string, error) {
-	allowed := []string{".jpg", ".png", ".jpeg"}
-	extension := filepath.Ext(s.Image)
-	var isValid bool = false
-	for _, ext := range allowed {
-		if ext == extension {
-			isValid = true
-		}
-	}
-	if !isValid {
-		return "", errors.New("Extension not supported")
-	}
-
+func CreateSlide(in *Slide) (string, error) {
 	// Verify if groupId exists in the db
 	var queryG Group
-	if err := DB.First(&queryG, s.GroupId).Error; err != nil {
+	if err := DB.First(&queryG, in.GroupId).Error; err != nil {
 		return "", errors.New("GroupId not found")
 	}
 
-	//Get latest id from the slide within a specific group
-	//for image nameing
-	var query Slide
-	err := DB.Last(&query, "group_id = ?", s.GroupId).Error
-	if err != nil {
-		query.ID = 0
+	var s Slide
+	s.Question = in.Question
+	s.Answer = in.Answer
+	s.Tags = in.Tags
+	s.GroupId = in.GroupId
+
+	var newFileName string
+	if len(in.Image) > 0 {
+		// verify if extension is good
+		fmt.Println("Sees Photo----------")
+		allowed := []string{".jpg", ".png", ".jpeg"}
+		extension := filepath.Ext(in.Image)
+		var isValid bool = false
+		for _, ext := range allowed {
+			if ext == extension {
+				isValid = true
+			}
+		}
+		if !isValid {
+			return "", errors.New("Extension not supported")
+		}
+
+		//Get latest id from the slide within a specific group
+		//for image nameing
+		var query Slide
+		err := DB.Last(&query, "group_id = ?", s.GroupId).Error
+		if err != nil {
+			query.ID = 0
+		}
+
+		newFileName = "slide-image_g" + strconv.Itoa(s.GroupId) + "n" + strconv.Itoa(int(query.ID)+1) + ".jpg"
+
+		s.Image = "image/" + newFileName
 	}
 
-	newFileName := "slide-image_g" + strconv.Itoa(s.GroupId) + "n" + strconv.Itoa(int(query.ID)+1) + ".jpg"
-
 	fmt.Println(newFileName)
-	s.Image = "image/" + newFileName
-
-	err = DB.Create(&s).Error
+	fmt.Println(s)
+	fmt.Println(in)
+	err := DB.Create(&s).Error
 	if err != nil {
 		return "", err
 	}

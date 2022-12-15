@@ -13,6 +13,7 @@ type Group struct {
 	Description string `gorm:"size:255;" json:"description"`
 	Likes       int    `gorm:"size:11;" json:"likes"`
 	IsPublic    bool   `gorm:"not null;" json:"isPublic"`
+	IsLiked     bool   `gorm:"not null;" json:"isLiked"`
 	Color       string `gorm:"size:255;" json:"color"`
 	UserId      int
 	User        User `gorm:"foreignKey:UserId"`
@@ -63,14 +64,13 @@ func SaveGroup(g *Group) (*Group, error) {
 }
 
 func GetGroups(uid uint) ([]Group, error) {
-
+	DB.AutoMigrate(Group{})
 	var g []Group
 
 	err := DB.Model(Group{}).Where("user_id = ?", uid).Find(&g).Error
 	if err != nil {
 		fmt.Print(err)
 		return g, err
-
 	}
 
 	//hide user id

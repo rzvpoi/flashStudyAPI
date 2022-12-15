@@ -92,6 +92,7 @@ func CreateGroup(c *gin.Context) {
 	g.IsPublic = *input.IsPublic
 	g.Color = input.Color
 	g.UserId = int(user_id)
+	g.IsLiked = false
 
 	_, errs := models.SaveGroup(&g)
 
@@ -115,6 +116,13 @@ func GetGroups(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
+	}
+
+	for i := 0; i < len(g); i++ {
+		err = models.IsLiked(user_id, g[i].ID)
+		if err == nil {
+			g[i].IsLiked = true
+		}
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "success", "data": g})

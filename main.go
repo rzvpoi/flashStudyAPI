@@ -34,6 +34,7 @@ func main() {
 	protectedGroup.POST("/create", controllers.CreateGroup)
 	protectedGroup.POST("/update", controllers.UpdateGroup)
 	protectedGroup.POST("/delete", controllers.DeleteGroup)
+	protectedGroup.POST("/like", controllers.LikeGroup)
 
 	protectedSlide := r.Group("api/slide")
 	protectedSlide.Use(middlewares.JwtAuthMiddleware())

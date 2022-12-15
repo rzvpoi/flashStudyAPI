@@ -128,6 +128,12 @@ func CreateSlide(c *gin.Context) {
 
 	s := models.Slide{}
 
+	if len(input.Image.Filename) < 1 {
+		s.Image = ""
+	} else {
+		s.Image = input.Image.Filename
+	}
+
 	s.Image = input.Image.Filename
 	s.Question = input.Question
 	s.Answer = input.Answer
@@ -141,11 +147,12 @@ func CreateSlide(c *gin.Context) {
 		return
 	}
 
-	if err := c.SaveUploadedFile(&input.Image, "./public/images-slide/"+filename); err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-			"message": "Unable to save the file",
-		})
-		return
+	if len(s.Image) > 0 {
+		if err := c.SaveUploadedFile(&input.Image, "./public/images-slide/"+filename); err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Unable to save the file"})
+			models.DeleteSlide(s)
+			return
+		}
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Slide Created!"})
