@@ -25,7 +25,7 @@ func GetStats(uid uint, gid uint) ([]Stats, error) {
 		return []Stats{}, errors.New("GroupId not found")
 	}
 
-	err := DB.Model(Stats{}).Where("user_id = ? && group_id = ?", uid, gid).Find(&n).Error
+	err := DB.Model(Stats{}).Where("user_id = ? AND group_id = ?", uid, gid).Find(&n).Error
 	if err != nil {
 		return n, err
 	}

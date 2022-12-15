@@ -1,0 +1,22 @@
+basePath: /api
+host: localhost:6969
+info:
+  contact:
+    email: razvanpoienariu@gmail.com
+    name: Tudor Poienariu
+    url: https://linkedin.com/in/tudor-poienariu-635a48232
+  description: FlashStudy API in Go using Gin framework.
+  title: FlashStudy API
+  version: "1.0"
+paths:
+  /search:
+    get:
+      parameters:
+      - description: word
+        in: query
+        name: value
+        required: true
+        type: string
+      responses: {}
+      summary: Get search results
+swagger: "2.0"

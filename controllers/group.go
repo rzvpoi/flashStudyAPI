@@ -24,6 +24,50 @@ type GroupUpdateInput struct {
 	Color       string `json:"color"`
 }
 
+// @Summary Get search results
+// @Param value query string true "word"
+// @Router /search [get]
+func Search(c *gin.Context) {
+	query, err := c.GetQuery("value")
+	if err == false {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Param 'value' missing!"})
+		return
+	}
+
+	data, errs := models.Search(query)
+
+	if err == false {
+		c.JSON(http.StatusBadRequest, gin.H{"error": errs.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success", "data": data})
+}
+
+// @Summary Get popular groups
+// @Param count query string true "count"
+// @Router /popularGroups  [get]
+func PopularGroups(c *gin.Context) {
+	query, err := c.GetQuery("count")
+	if err == false {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Param 'count' missing!"})
+		return
+	}
+
+	count, _ := strconv.Atoi(query)
+	data, errs := models.PopularGroups(count)
+
+	if err == false {
+		c.JSON(http.StatusBadRequest, gin.H{"error": errs.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success", "data": data})
+}
+
+// @Summary Delete a group
+// @Param id query string true "Group Id"
+// @Router /group/delete   [get]
 func DeleteGroup(c *gin.Context) {
 	id, err := c.GetQuery("id")
 	if err == false {
@@ -44,6 +88,10 @@ func DeleteGroup(c *gin.Context) {
 
 }
 
+// @Summary Update data of a group
+// @Description Insert all the values even if they are not new
+// @Param body json {object} true "Group Id"
+// @Router /group/delete   [get]
 func UpdateGroup(c *gin.Context) {
 
 	var input GroupUpdateInput

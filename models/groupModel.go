@@ -19,6 +19,41 @@ type Group struct {
 	User        User `gorm:"foreignKey:UserId"`
 }
 
+func Search(word string) ([]Group, error) {
+	var g []Group
+
+	err := DB.Model(Group{}).Where("name LIKE ? AND is_public = 1", "%"+word+"%").Find(&g).Error
+	if err != nil {
+		fmt.Print(err)
+		return g, err
+	}
+
+	//hide user id
+	for i := 0; i < len(g); i++ {
+		g[i].UserId = -1
+	}
+
+	return g, nil
+
+}
+
+func PopularGroups(count int) ([]Group, error) {
+	var g []Group
+
+	err := DB.Model(Group{}).Where("is_public = 1").Order("likes desc").Limit(count).Find(&g).Error
+	if err != nil {
+		fmt.Print(err)
+		return g, err
+	}
+
+	//hide user id
+	for i := 0; i < len(g); i++ {
+		g[i].UserId = -1
+	}
+
+	return g, nil
+}
+
 func DeleteGroup(gid uint) (string, error) {
 	var g Group
 	g.ID = gid
@@ -64,7 +99,6 @@ func SaveGroup(g *Group) (*Group, error) {
 }
 
 func GetGroups(uid uint) ([]Group, error) {
-	DB.AutoMigrate(Group{})
 	var g []Group
 
 	err := DB.Model(Group{}).Where("user_id = ?", uid).Find(&g).Error

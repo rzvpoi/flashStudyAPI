@@ -1,0 +1,32 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "FlashStudy API in Go using Gin framework.",
+        "title": "FlashStudy API",
+        "contact": {
+            "name": "Tudor Poienariu",
+            "url": "https://linkedin.com/in/tudor-poienariu-635a48232",
+            "email": "razvanpoienariu@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:6969",
+    "basePath": "/api",
+    "paths": {
+        "/search": {
+            "get": {
+                "summary": "Get search results",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "word",
+                        "name": "value",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    }
+}

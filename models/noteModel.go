@@ -72,7 +72,7 @@ func GetNote(uid uint, gid uint) ([]Note, error) {
 		return []Note{}, errors.New("GroupId not found")
 	}
 
-	err := DB.Model(Note{}).Where("user_id = ? && group_id = ?", uid, gid).Find(&n).Error
+	err := DB.Model(Note{}).Where("user_id = ? AND group_id = ?", uid, gid).Find(&n).Error
 	if err != nil {
 		fmt.Print(err)
 		return n, err
