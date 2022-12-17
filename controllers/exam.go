@@ -9,12 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// swagger:model
 type ExamInput struct {
 	Name        string `json:"name" binding:"required,min=3,max=200"`
 	Description string `json:"description" binding:"required"`
 	ExamDate    string `json:"examDate" binding:"required"`
 }
 
+// swagger:model
 type ExamUpdateInput struct {
 	Id          int    `json:"id" binding:"required"`
 	Name        string `json:"name" binding:"required,min=3,max=200"`
@@ -22,6 +24,10 @@ type ExamUpdateInput struct {
 	ExamDate    string `json:"examDate" binding:"required"`
 }
 
+// @Summary Delete an exam
+// @Param id query string true "Exam Delete Query"
+// @Tags Exam
+// @Router /exam/delete   [delete]
 func DeleteExam(c *gin.Context) {
 	id, err := c.GetQuery("id")
 
@@ -41,6 +47,12 @@ func DeleteExam(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Exam Deleted!"})
 }
 
+// @Summary Update an exam
+// @Param id query string true "Exam Update Query"
+// @Description  !!! Insert all the values even if they are not new
+// @Param exam body ExamUpdateInput true "Exam Update JSON"
+// @Tags Exam
+// @Router /exam/update   [put]
 func UpdateExam(c *gin.Context) {
 	var input ExamUpdateInput
 
@@ -65,6 +77,11 @@ func UpdateExam(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Exam Updated!"})
 }
 
+// @Summary Create an exam
+// @Description Create New Exam
+// @Tags Exam
+// @Param exam body ExamInput true "Exam Create JSON"
+// @Router /exam/create [post]
 func CreateExam(c *gin.Context) {
 	uid, err := token.ExtractTokenID(c)
 
@@ -97,6 +114,9 @@ func CreateExam(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Exam Created!"})
 }
 
+// @Summary Get exams for user
+// @Tags Exam
+// @Router /exam [get]
 func GetExam(c *gin.Context) {
 	// get user id
 	uid, err := token.ExtractTokenID(c)

@@ -9,22 +9,30 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// swagger:parameter
 type SlideInput struct {
 	Question string               `form:"question" binding:"required,min=3,max=500"`
 	Answer   string               `form:"answer" binding:"required,max=500"`
 	Tags     string               `form:"tags"`
 	GroupId  string               `form:"groupId" binding:"required"`
-	Image    multipart.FileHeader `form:"image"`
+	Image    multipart.FileHeader `form:"image" swaggerignore:"true"`
 }
 
+// swagger:parameter
 type SlideUpdateInput struct {
 	Id       string               `form:"id" binding:"required"`
 	Question string               `form:"question" binding:"required,min=3,max=500"`
 	Answer   string               `form:"answer" binding:"required,max=500"`
 	Tags     string               `form:"tags"`
-	Image    multipart.FileHeader `form:"image"`
+	Image    multipart.FileHeader `form:"image" swaggerignore:"true"`
 }
 
+// @Summary Update data of a slide
+// @Description  !!! Insert all the values even if they are not new
+// @Tags Slide
+// @Param slide formData SlideUpdateInput true "Slide Create JSON"
+// @Param image formData file true "the picture file"
+// @Router /slide/update [put]
 func UpdateSlide(c *gin.Context) {
 
 	var input SlideUpdateInput
@@ -70,6 +78,10 @@ func UpdateSlide(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Slide updated!"})
 }
 
+// @Summary Delete a slide
+// @Param id query string true "Slide Delete Query"
+// @Tags Slide
+// @Router /slide/delete   [delete]
 func DeleteSlide(c *gin.Context) {
 	id, err := c.GetQuery("id")
 
@@ -93,6 +105,9 @@ func DeleteSlide(c *gin.Context) {
 
 }
 
+// @Summary Get slide for user
+// @Tags Slide
+// @Router /slide [get]
 func GetSlide(c *gin.Context) {
 	id, err := c.GetQuery("gid")
 
@@ -113,6 +128,11 @@ func GetSlide(c *gin.Context) {
 
 }
 
+// @Summary Create a slide
+// @Tags Slide
+// @Param slide formData SlideInput true "Slide Create JSON"
+// @Param image formData file true "the picture file"
+// @Router /slide/create [post]
 func CreateSlide(c *gin.Context) {
 	var input SlideInput
 

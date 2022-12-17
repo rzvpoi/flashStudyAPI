@@ -1,4 +1,169 @@
 basePath: /api
+definitions:
+  controllers.ExamInput:
+    properties:
+      description:
+        type: string
+      examDate:
+        type: string
+      name:
+        maxLength: 200
+        minLength: 3
+        type: string
+    required:
+    - description
+    - examDate
+    - name
+    type: object
+  controllers.ExamUpdateInput:
+    properties:
+      description:
+        type: string
+      examDate:
+        type: string
+      id:
+        type: integer
+      name:
+        maxLength: 200
+        minLength: 3
+        type: string
+    required:
+    - description
+    - examDate
+    - id
+    - name
+    type: object
+  controllers.GroupInput:
+    properties:
+      color:
+        type: string
+      description:
+        maxLength: 500
+        minLength: 0
+        type: string
+      isPublic:
+        type: boolean
+      name:
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - isPublic
+    - name
+    type: object
+  controllers.GroupUpdateInput:
+    properties:
+      color:
+        type: string
+      description:
+        maxLength: 500
+        minLength: 0
+        type: string
+      id:
+        type: integer
+      isPublic:
+        type: boolean
+      name:
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - id
+    - isPublic
+    - name
+    type: object
+  controllers.LoginInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  controllers.NoteInput:
+    properties:
+      groupId:
+        type: integer
+      text:
+        type: string
+      title:
+        maxLength: 30
+        minLength: 3
+        type: string
+    required:
+    - groupId
+    - text
+    - title
+    type: object
+  controllers.NoteUpdateInput:
+    properties:
+      id:
+        type: integer
+      text:
+        type: string
+      title:
+        maxLength: 30
+        minLength: 3
+        type: string
+    required:
+    - id
+    - text
+    - title
+    type: object
+  controllers.PasswordResetInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      passwordrepeat:
+        type: string
+    required:
+    - email
+    - password
+    - passwordrepeat
+    type: object
+  controllers.RegisterInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        maxLength: 30
+        minLength: 3
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  controllers.StatsInput:
+    properties:
+      correctAnswer:
+        maximum: 30
+        minimum: 3
+        type: integer
+      groupId:
+        type: integer
+      wrongAnswer:
+        type: integer
+    required:
+    - correctAnswer
+    - groupId
+    - wrongAnswer
+    type: object
+  controllers.UserInput:
+    properties:
+      username:
+        maxLength: 30
+        minLength: 3
+        type: string
+    required:
+    - username
+    type: object
 host: localhost:6969
 info:
   contact:
@@ -9,14 +174,326 @@ info:
   title: FlashStudy API
   version: "1.0"
 paths:
+  /api/login:
+    post:
+      parameters:
+      - description: Login User JSON
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.LoginInput'
+      responses: {}
+      summary: User Login
+      tags:
+      - User
+  /api/passwordreset:
+    post:
+      parameters:
+      - description: Password Reset JSON
+        in: body
+        name: password
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.PasswordResetInput'
+      responses: {}
+      summary: Reset password
+      tags:
+      - User
+  /api/register:
+    post:
+      parameters:
+      - description: Register User JSON
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.RegisterInput'
+      responses: {}
+      summary: User Register
+      tags:
+      - User
+  /api/user:
+    get:
+      responses: {}
+      summary: Get user data
+      tags:
+      - User
+  /api/user/update:
+    put:
+      description: '!!! Insert all the values even if they are not new'
+      parameters:
+      - description: User Update JSON
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.UserInput'
+      responses: {}
+      summary: Update data of an user
+      tags:
+      - User
+  /exam:
+    get:
+      responses: {}
+      summary: Get exams for user
+      tags:
+      - Exam
+  /exam/create:
+    post:
+      description: Create New Exam
+      parameters:
+      - description: Exam Create JSON
+        in: body
+        name: exam
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.ExamInput'
+      responses: {}
+      summary: Create an exam
+      tags:
+      - Exam
+  /exam/delete:
+    delete:
+      parameters:
+      - description: Exam Delete Query
+        in: query
+        name: id
+        required: true
+        type: string
+      responses: {}
+      summary: Delete an exam
+      tags:
+      - Exam
+  /exam/update:
+    put:
+      description: '!!! Insert all the values even if they are not new'
+      parameters:
+      - description: Exam Update Query
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: Exam Update JSON
+        in: body
+        name: exam
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.ExamUpdateInput'
+      responses: {}
+      summary: Update an exam
+      tags:
+      - Exam
+  /group:
+    get:
+      responses: {}
+      summary: Get groups for user
+      tags:
+      - Group
+  /group/create:
+    post:
+      parameters:
+      - description: Group Id Query
+        in: query
+        name: id
+        required: true
+        type: string
+      responses: {}
+      summary: Like a group
+      tags:
+      - Group
+  /group/delete:
+    delete:
+      parameters:
+      - description: Group Delete Query
+        in: query
+        name: id
+        required: true
+        type: string
+      responses: {}
+      summary: Delete a group
+      tags:
+      - Group
+  /group/update:
+    put:
+      description: '!!! Insert all the values even if they are not new'
+      parameters:
+      - description: Group Update JSON
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.GroupUpdateInput'
+      responses: {}
+      summary: Update data of a group
+      tags:
+      - Group
+  /note:
+    get:
+      responses: {}
+      summary: Get note for user
+      tags:
+      - Note
+  /note/create:
+    post:
+      description: Create New Note
+      parameters:
+      - description: Note Create JSON
+        in: body
+        name: note
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.NoteInput'
+      responses: {}
+      summary: Create a note
+      tags:
+      - Note
+  /note/delete:
+    delete:
+      parameters:
+      - description: Note Delete Query
+        in: query
+        name: id
+        required: true
+        type: string
+      responses: {}
+      summary: Delete a note
+      tags:
+      - Note
+  /note/update:
+    put:
+      description: '!!! Insert all the values even if they are not new'
+      parameters:
+      - description: Note Update JSON
+        in: body
+        name: note
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.NoteUpdateInput'
+      responses: {}
+      summary: Update data of a note
+      tags:
+      - Note
+  /popularGroups:
+    get:
+      parameters:
+      - description: Popular Group Get Query
+        in: query
+        name: count
+        required: true
+        type: string
+      responses: {}
+      summary: Get popular groups
+      tags:
+      - Group
   /search:
     get:
       parameters:
-      - description: word
+      - description: Group Search Query
         in: query
         name: value
         required: true
         type: string
       responses: {}
       summary: Get search results
+      tags:
+      - Group
+  /slide:
+    get:
+      responses: {}
+      summary: Get slide for user
+      tags:
+      - Slide
+  /slide/create:
+    post:
+      parameters:
+      - in: formData
+        maxLength: 500
+        name: answer
+        required: true
+        type: string
+      - in: formData
+        name: groupId
+        required: true
+        type: string
+      - in: formData
+        maxLength: 500
+        minLength: 3
+        name: question
+        required: true
+        type: string
+      - in: formData
+        name: tags
+        type: string
+      - description: the picture file
+        in: formData
+        name: image
+        required: true
+        type: file
+      responses: {}
+      summary: Create a slide
+      tags:
+      - Slide
+  /slide/delete:
+    delete:
+      parameters:
+      - description: Slide Delete Query
+        in: query
+        name: id
+        required: true
+        type: string
+      responses: {}
+      summary: Delete a slide
+      tags:
+      - Slide
+  /slide/update:
+    put:
+      description: '!!! Insert all the values even if they are not new'
+      parameters:
+      - in: formData
+        maxLength: 500
+        name: answer
+        required: true
+        type: string
+      - in: formData
+        name: id
+        required: true
+        type: string
+      - in: formData
+        maxLength: 500
+        minLength: 3
+        name: question
+        required: true
+        type: string
+      - in: formData
+        name: tags
+        type: string
+      - description: the picture file
+        in: formData
+        name: image
+        required: true
+        type: file
+      responses: {}
+      summary: Update data of a slide
+      tags:
+      - Slide
+  /stats:
+    get:
+      responses: {}
+      summary: Get stats for user
+      tags:
+      - Stats
+  /stats/create:
+    post:
+      parameters:
+      - description: Stats Create JSON
+        in: body
+        name: stats
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.StatsInput'
+      responses: {}
+      summary: Create a stats
+      tags:
+      - Stats
 swagger: "2.0"

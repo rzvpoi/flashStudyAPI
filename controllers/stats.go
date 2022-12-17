@@ -9,12 +9,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// swagger:model
 type StatsInput struct {
 	CorrectAnswer int `json:"correctAnswer" binding:"required,min=3,max=30"`
 	WrongAnswer   int `json:"wrongAnswer" binding:"required"`
 	GroupId       int `json:"groupId" binding:"required"`
 }
 
+// @Summary Get stats for user
+// @Tags Stats
+// @Router /stats [get]
 func GetStats(c *gin.Context) {
 	// get group id
 	id, errg := c.GetQuery("id")
@@ -41,6 +45,10 @@ func GetStats(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "success", "data": stats})
 }
 
+// @Summary Create a stats
+// @Tags Stats
+// @Param stats body StatsInput true "Stats Create JSON"
+// @Router /stats/create [post]
 func CreateStats(c *gin.Context) {
 	uid, err := token.ExtractTokenID(c)
 

@@ -13,19 +13,719 @@
     "host": "localhost:6969",
     "basePath": "/api",
     "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "User Login",
+                "parameters": [
+                    {
+                        "description": "Login User JSON",
+                        "name": "login",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.LoginInput"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/passwordreset": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Reset password",
+                "parameters": [
+                    {
+                        "description": "Password Reset JSON",
+                        "name": "password",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.PasswordResetInput"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "User Register",
+                "parameters": [
+                    {
+                        "description": "Register User JSON",
+                        "name": "register",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.RegisterInput"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/user": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user data",
+                "responses": {}
+            }
+        },
+        "/api/user/update": {
+            "put": {
+                "description": "!!! Insert all the values even if they are not new",
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update data of an user",
+                "parameters": [
+                    {
+                        "description": "User Update JSON",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.UserInput"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/exam": {
+            "get": {
+                "tags": [
+                    "Exam"
+                ],
+                "summary": "Get exams for user",
+                "responses": {}
+            }
+        },
+        "/exam/create": {
+            "post": {
+                "description": "Create New Exam",
+                "tags": [
+                    "Exam"
+                ],
+                "summary": "Create an exam",
+                "parameters": [
+                    {
+                        "description": "Exam Create JSON",
+                        "name": "exam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ExamInput"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/exam/delete": {
+            "delete": {
+                "tags": [
+                    "Exam"
+                ],
+                "summary": "Delete an exam",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Exam Delete Query",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/exam/update": {
+            "put": {
+                "description": "!!! Insert all the values even if they are not new",
+                "tags": [
+                    "Exam"
+                ],
+                "summary": "Update an exam",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Exam Update Query",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "Exam Update JSON",
+                        "name": "exam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.ExamUpdateInput"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/group": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Get groups for user",
+                "responses": {}
+            }
+        },
+        "/group/create": {
+            "post": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Like a group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Group Id Query",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/group/delete": {
+            "delete": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Delete a group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Group Delete Query",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/group/update": {
+            "put": {
+                "description": "!!! Insert all the values even if they are not new",
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Update data of a group",
+                "parameters": [
+                    {
+                        "description": "Group Update JSON",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.GroupUpdateInput"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/note": {
+            "get": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Get note for user",
+                "responses": {}
+            }
+        },
+        "/note/create": {
+            "post": {
+                "description": "Create New Note",
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Create a note",
+                "parameters": [
+                    {
+                        "description": "Note Create JSON",
+                        "name": "note",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.NoteInput"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/note/delete": {
+            "delete": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Delete a note",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Note Delete Query",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/note/update": {
+            "put": {
+                "description": "!!! Insert all the values even if they are not new",
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Update data of a note",
+                "parameters": [
+                    {
+                        "description": "Note Update JSON",
+                        "name": "note",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.NoteUpdateInput"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/popularGroups": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Get popular groups",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Popular Group Get Query",
+                        "name": "count",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/search": {
             "get": {
+                "tags": [
+                    "Group"
+                ],
                 "summary": "Get search results",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "word",
+                        "description": "Group Search Query",
                         "name": "value",
                         "in": "query",
                         "required": true
                     }
                 ],
                 "responses": {}
+            }
+        },
+        "/slide": {
+            "get": {
+                "tags": [
+                    "Slide"
+                ],
+                "summary": "Get slide for user",
+                "responses": {}
+            }
+        },
+        "/slide/create": {
+            "post": {
+                "tags": [
+                    "Slide"
+                ],
+                "summary": "Create a slide",
+                "parameters": [
+                    {
+                        "maxLength": 500,
+                        "type": "string",
+                        "name": "answer",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "groupId",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "maxLength": 500,
+                        "minLength": 3,
+                        "type": "string",
+                        "name": "question",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "tags",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "file",
+                        "description": "the picture file",
+                        "name": "image",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/slide/delete": {
+            "delete": {
+                "tags": [
+                    "Slide"
+                ],
+                "summary": "Delete a slide",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Slide Delete Query",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/slide/update": {
+            "put": {
+                "description": "!!! Insert all the values even if they are not new",
+                "tags": [
+                    "Slide"
+                ],
+                "summary": "Update data of a slide",
+                "parameters": [
+                    {
+                        "maxLength": 500,
+                        "type": "string",
+                        "name": "answer",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "id",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "maxLength": 500,
+                        "minLength": 3,
+                        "type": "string",
+                        "name": "question",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "tags",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "file",
+                        "description": "the picture file",
+                        "name": "image",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/stats": {
+            "get": {
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "Get stats for user",
+                "responses": {}
+            }
+        },
+        "/stats/create": {
+            "post": {
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "Create a stats",
+                "parameters": [
+                    {
+                        "description": "Stats Create JSON",
+                        "name": "stats",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.StatsInput"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "controllers.ExamInput": {
+            "type": "object",
+            "required": [
+                "description",
+                "examDate",
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "examDate": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 3
+                }
+            }
+        },
+        "controllers.ExamUpdateInput": {
+            "type": "object",
+            "required": [
+                "description",
+                "examDate",
+                "id",
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "examDate": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 3
+                }
+            }
+        },
+        "controllers.GroupInput": {
+            "type": "object",
+            "required": [
+                "isPublic",
+                "name"
+            ],
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string",
+                    "maxLength": 500,
+                    "minLength": 0
+                },
+                "isPublic": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 3
+                }
+            }
+        },
+        "controllers.GroupUpdateInput": {
+            "type": "object",
+            "required": [
+                "id",
+                "isPublic",
+                "name"
+            ],
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string",
+                    "maxLength": 500,
+                    "minLength": 0
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isPublic": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 3
+                }
+            }
+        },
+        "controllers.LoginInput": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.NoteInput": {
+            "type": "object",
+            "required": [
+                "groupId",
+                "text",
+                "title"
+            ],
+            "properties": {
+                "groupId": {
+                    "type": "integer"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 3
+                }
+            }
+        },
+        "controllers.NoteUpdateInput": {
+            "type": "object",
+            "required": [
+                "id",
+                "text",
+                "title"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 3
+                }
+            }
+        },
+        "controllers.PasswordResetInput": {
+            "type": "object",
+            "required": [
+                "email",
+                "password",
+                "passwordrepeat"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "passwordrepeat": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.RegisterInput": {
+            "type": "object",
+            "required": [
+                "email",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 3
+                }
+            }
+        },
+        "controllers.StatsInput": {
+            "type": "object",
+            "required": [
+                "correctAnswer",
+                "groupId",
+                "wrongAnswer"
+            ],
+            "properties": {
+                "correctAnswer": {
+                    "type": "integer",
+                    "maximum": 30,
+                    "minimum": 3
+                },
+                "groupId": {
+                    "type": "integer"
+                },
+                "wrongAnswer": {
+                    "type": "integer"
+                }
+            }
+        },
+        "controllers.UserInput": {
+            "type": "object",
+            "required": [
+                "username"
+            ],
+            "properties": {
+                "username": {
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 3
+                }
             }
         }
     }

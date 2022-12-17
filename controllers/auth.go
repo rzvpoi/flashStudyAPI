@@ -8,27 +8,36 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// swager:model
 type RegisterInput struct {
 	Email    string `json:"email" binding:"required,email"`
 	Username string `json:"username" binding:"required,min=3,max=30"`
 	Password string `json:"password" binding:"required"`
 }
 
+// swager:model
 type LoginInput struct {
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required"`
 }
 
+// swager:model
 type PasswordResetInput struct {
 	Email          string `json:"email" binding:"required,email"`
 	Password       string `json:"password" binding:"required"`
 	PasswordRepeat string `json:"passwordrepeat" binding:"required"`
 }
 
+// swager:model
 type UserInput struct {
 	Username string `json:"username" binding:"required,min=3,max=30"`
 }
 
+// @Summary Update data of an user
+// @Description  !!! Insert all the values even if they are not new
+// @Tags User
+// @Param user body UserInput true "User Update JSON"
+// @Router /api/user/update [put]
 func UpdateUser(c *gin.Context) {
 	user_id, err := token.ExtractTokenID(c)
 
@@ -55,6 +64,10 @@ func UpdateUser(c *gin.Context) {
 
 }
 
+// @Summary Reset password
+// @Tags User
+// @Param password body PasswordResetInput true "Password Reset JSON"
+// @Router /api/passwordreset [post]
 func PasswordReset(c *gin.Context) {
 
 	var input PasswordResetInput
@@ -85,6 +98,9 @@ func PasswordReset(c *gin.Context) {
 
 }
 
+// @Summary Get user data
+// @Tags User
+// @Router /api/user [get]
 func CurrentUser(c *gin.Context) {
 	user_id, err := token.ExtractTokenID(c)
 	if err != nil {
@@ -102,6 +118,10 @@ func CurrentUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "success", "data": u})
 }
 
+// @Summary User Login
+// @Tags User
+// @Param login body LoginInput true "Login User JSON"
+// @Router /api/login [post]
 func Login(c *gin.Context) {
 
 	var input LoginInput
@@ -126,6 +146,10 @@ func Login(c *gin.Context) {
 
 }
 
+// @Summary User Register
+// @Tags User
+// @Param register body RegisterInput true "Register User JSON"
+// @Router /api/register [post]
 func Register(c *gin.Context) {
 
 	var input RegisterInput

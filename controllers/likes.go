@@ -9,6 +9,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary Like a group
+// @Tags Group
+// @Param id query string true "Group Id Query"
+// @Router /group/create [post]
 func LikeGroup(c *gin.Context) {
 	// get group id
 	id, errg := c.GetQuery("id")

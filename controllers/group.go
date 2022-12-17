@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//swagger:model
 type GroupInput struct {
 	Name        string `json:"name" binding:"required,min=3,max=50"`
 	Description string `json:"description" binding:"min=0,max=500"`
@@ -16,6 +17,7 @@ type GroupInput struct {
 	Color       string `json:"color"`
 }
 
+//swagger:model
 type GroupUpdateInput struct {
 	Id          uint   `json:"id" binding:"required"`
 	Name        string `json:"name" binding:"required,min=3,max=50"`
@@ -25,7 +27,8 @@ type GroupUpdateInput struct {
 }
 
 // @Summary Get search results
-// @Param value query string true "word"
+// @Tags Group
+// @Param value query string true "Group Search Query"
 // @Router /search [get]
 func Search(c *gin.Context) {
 	query, err := c.GetQuery("value")
@@ -45,7 +48,8 @@ func Search(c *gin.Context) {
 }
 
 // @Summary Get popular groups
-// @Param count query string true "count"
+// @Tags Group
+// @Param count query string true "Popular Group Get Query"
 // @Router /popularGroups  [get]
 func PopularGroups(c *gin.Context) {
 	query, err := c.GetQuery("count")
@@ -66,8 +70,9 @@ func PopularGroups(c *gin.Context) {
 }
 
 // @Summary Delete a group
-// @Param id query string true "Group Id"
-// @Router /group/delete   [get]
+// @Param id query string true "Group Delete Query"
+// @Tags Group
+// @Router /group/delete   [delete]
 func DeleteGroup(c *gin.Context) {
 	id, err := c.GetQuery("id")
 	if err == false {
@@ -89,9 +94,10 @@ func DeleteGroup(c *gin.Context) {
 }
 
 // @Summary Update data of a group
-// @Description Insert all the values even if they are not new
-// @Param body json {object} true "Group Id"
-// @Router /group/delete   [get]
+// @Description  !!! Insert all the values even if they are not new
+// @Tags Group
+// @Param group body GroupUpdateInput true "Group Update JSON"
+// @Router /group/update [put]
 func UpdateGroup(c *gin.Context) {
 
 	var input GroupUpdateInput
@@ -118,6 +124,10 @@ func UpdateGroup(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": response})
 }
 
+// @Summary Create a group
+// @Tags Group
+// @Param group body GroupInput true "Group Create JSON"
+// @Router /group/create [post]
 func CreateGroup(c *gin.Context) {
 	user_id, err := token.ExtractTokenID(c)
 
@@ -152,6 +162,9 @@ func CreateGroup(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "group created"})
 }
 
+// @Summary Get groups for user
+// @Tags Group
+// @Router /group [get]
 func GetGroups(c *gin.Context) {
 	user_id, err := token.ExtractTokenID(c)
 	if err != nil {
