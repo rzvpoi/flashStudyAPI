@@ -128,6 +128,7 @@ func Login(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	u := models.User{}
@@ -169,6 +170,7 @@ func Register(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "registration success"})
