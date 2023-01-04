@@ -10,7 +10,7 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:6969",
+    "host": "localhost:8081",
     "basePath": "/api",
     "paths": {
         "/api/login": {

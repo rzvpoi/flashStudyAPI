@@ -164,7 +164,7 @@ definitions:
     required:
     - username
     type: object
-host: localhost:6969
+host: localhost:8081
 info:
   contact:
     email: razvanpoienariu@gmail.com

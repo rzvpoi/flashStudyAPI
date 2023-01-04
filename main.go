@@ -5,6 +5,7 @@ import (
 	"flashStudyAPI/middlewares"
 	"flashStudyAPI/models"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
 	_ "flashStudyAPI/docs"
@@ -21,7 +22,7 @@ import (
 // @contact.url    https://linkedin.com/in/tudor-poienariu-635a48232
 // @contact.email  razvanpoienariu@gmail.com
 
-// @host      localhost:6969
+// @host      localhost:8081
 // @BasePath  /api
 func main() {
 
@@ -30,6 +31,7 @@ func main() {
 	r := gin.Default()
 
 	r.Static("/image", "./public/images-slide")
+	r.Use(cors.Default())
 
 	public := r.Group("/api")
 
@@ -54,6 +56,7 @@ func main() {
 	protectedGroup.POST("/like", controllers.LikeGroup)
 
 	protectedSlide := r.Group("api/slide")
+
 	protectedSlide.Use(middlewares.JwtAuthMiddleware())
 	protectedSlide.GET("/", controllers.GetSlide)
 	protectedSlide.POST("/create", controllers.CreateSlide)
@@ -61,6 +64,7 @@ func main() {
 	protectedSlide.DELETE("/delete", controllers.DeleteSlide)
 
 	protectedNote := r.Group("api/note")
+
 	protectedNote.Use(middlewares.JwtAuthMiddleware())
 	protectedNote.GET("/", controllers.GetNote)
 	protectedNote.POST("/create", controllers.CreateNote)
@@ -68,6 +72,7 @@ func main() {
 	protectedNote.DELETE("/delete", controllers.DeleteNote)
 
 	protectedExam := r.Group("api/exam")
+
 	protectedExam.Use(middlewares.JwtAuthMiddleware())
 	protectedExam.GET("/", controllers.GetExam)
 	protectedExam.POST("/create", controllers.CreateExam)
@@ -75,11 +80,12 @@ func main() {
 	protectedExam.DELETE("/delete", controllers.DeleteExam)
 
 	protectedStats := r.Group("api/stats")
+
 	protectedStats.Use(middlewares.JwtAuthMiddleware())
 	protectedStats.GET("/", controllers.GetStats)
 	protectedStats.GET("/create", controllers.CreateStats)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	r.Run(":6969")
+	r.Run(":8081")
 
 }
