@@ -31,7 +31,14 @@ func main() {
 	r := gin.Default()
 
 	r.Static("/image", "./public/images-slide")
-	r.Use(cors.Default())
+	r.Use(cors.New(cors.Config{
+		AllowAllOrigins:  true,
+		AllowMethods:     []string{"POST", "PUT", "PATH", "DELETE", "UPDATE", "GET"},
+		AllowHeaders:     []string{"Authorization", "Content-Type", "Origin"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           86400,
+	}))
 
 	public := r.Group("/api")
 
