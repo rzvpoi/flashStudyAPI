@@ -12,7 +12,7 @@ import (
 // @Summary Like a group
 // @Tags Group
 // @Param id query string true "Group Id Query"
-// @Router /group/create [post]
+// @Router /group/like [post]
 func LikeGroup(c *gin.Context) {
 	// get group id
 	id, errg := c.GetQuery("id")

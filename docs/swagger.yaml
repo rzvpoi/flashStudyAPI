@@ -293,13 +293,14 @@ paths:
   /group/create:
     post:
       parameters:
-      - description: Group Id Query
-        in: query
-        name: id
+      - description: Group Create JSON
+        in: body
+        name: group
         required: true
-        type: string
+        schema:
+          $ref: '#/definitions/controllers.GroupInput'
       responses: {}
-      summary: Like a group
+      summary: Create a group
       tags:
       - Group
   /group/delete:
@@ -312,6 +313,18 @@ paths:
         type: string
       responses: {}
       summary: Delete a group
+      tags:
+      - Group
+  /group/like:
+    post:
+      parameters:
+      - description: Group Id Query
+        in: query
+        name: id
+        required: true
+        type: string
+      responses: {}
+      summary: Like a group
       tags:
       - Group
   /group/update:

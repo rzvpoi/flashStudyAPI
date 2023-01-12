@@ -200,14 +200,16 @@ const docTemplate = `{
                 "tags": [
                     "Group"
                 ],
-                "summary": "Like a group",
+                "summary": "Create a group",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Group Id Query",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
+                        "description": "Group Create JSON",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.GroupInput"
+                        }
                     }
                 ],
                 "responses": {}
@@ -223,6 +225,24 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Group Delete Query",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/group/like": {
+            "post": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Like a group",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Group Id Query",
                         "name": "id",
                         "in": "query",
                         "required": true
