@@ -109,10 +109,10 @@ func DeleteSlide(c *gin.Context) {
 // @Tags Slide
 // @Router /slide [get]
 func GetSlide(c *gin.Context) {
-	id, err := c.GetQuery("gid")
+	id, err := c.GetQuery("id")
 
 	if err == false {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "'gid' param missing!"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "'id' param missing!"})
 		return
 	}
 	gid, _ := strconv.Atoi(id)
