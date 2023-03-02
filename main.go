@@ -22,7 +22,7 @@ import (
 // @contact.url    https://linkedin.com/in/tudor-poienariu-635a48232
 // @contact.email  razvanpoienariu@gmail.com
 
-// @host      localhost:8081
+// @host      flashstudy.razvanpoienariu.net
 // @BasePath  /api
 func main() {
 
@@ -90,7 +90,7 @@ func main() {
 
 	protectedStats.Use(middlewares.JwtAuthMiddleware())
 	protectedStats.GET("/", controllers.GetStats)
-	protectedStats.GET("/create", controllers.CreateStats)
+	protectedStats.POST("/create", controllers.CreateStats)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.Run(":8081")

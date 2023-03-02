@@ -31,7 +31,7 @@ type ExamUpdateInput struct {
 func DeleteExam(c *gin.Context) {
 	id, err := c.GetQuery("id")
 
-	if err == false {
+	if !err {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "'id' param missing!"})
 		return
 	}

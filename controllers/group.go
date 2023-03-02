@@ -32,14 +32,14 @@ type GroupUpdateInput struct {
 // @Router /search [get]
 func Search(c *gin.Context) {
 	query, err := c.GetQuery("value")
-	if err == false {
+	if !err {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Param 'value' missing!"})
 		return
 	}
 
 	data, errs := models.Search(query)
 
-	if err == false {
+	if !err {
 		c.JSON(http.StatusBadRequest, gin.H{"error": errs.Error()})
 		return
 	}
@@ -53,7 +53,7 @@ func Search(c *gin.Context) {
 // @Router /popularGroups  [get]
 func PopularGroups(c *gin.Context) {
 	query, err := c.GetQuery("count")
-	if err == false {
+	if !err {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Param 'count' missing!"})
 		return
 	}
@@ -61,7 +61,7 @@ func PopularGroups(c *gin.Context) {
 	count, _ := strconv.Atoi(query)
 	data, errs := models.PopularGroups(count)
 
-	if err == false {
+	if !err {
 		c.JSON(http.StatusBadRequest, gin.H{"error": errs.Error()})
 		return
 	}
@@ -75,7 +75,7 @@ func PopularGroups(c *gin.Context) {
 // @Router /group/delete   [delete]
 func DeleteGroup(c *gin.Context) {
 	id, err := c.GetQuery("id")
-	if err == false {
+	if !err {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Param 'id' missing!"})
 		return
 	}
