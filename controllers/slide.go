@@ -75,7 +75,7 @@ func UpdateSlide(c *gin.Context) {
 			return
 		}
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Slide updated!"})
+	c.JSON(http.StatusOK, gin.H{"message": "Slide updated!", "link": "/image/" + filename})
 }
 
 // @Summary Delete a slide
@@ -175,6 +175,6 @@ func CreateSlide(c *gin.Context) {
 		}
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Slide Created!"})
+	c.JSON(http.StatusOK, gin.H{"message": "Slide Created!", "link": "/image/" + filename})
 
 }
