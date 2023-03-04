@@ -11,7 +11,7 @@ import (
 
 // swagger:model
 type StatsInput struct {
-	CorrectAnswer int `json:"correctAnswer" binding:"required,min=3,max=30"`
+	CorrectAnswer int `json:"correctAnswer" binding:"required"`
 	WrongAnswer   int `json:"wrongAnswer" binding:"required"`
 	GroupId       int `json:"groupId" binding:"required"`
 }
