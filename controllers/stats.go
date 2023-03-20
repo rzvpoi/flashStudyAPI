@@ -11,9 +11,9 @@ import (
 
 // swagger:model
 type StatsInput struct {
-	CorrectAnswer int `json:"correctAnswer" binding:"required"`
-	WrongAnswer   int `json:"wrongAnswer" binding:"required"`
-	GroupId       int `json:"groupId" binding:"required"`
+	CorrectAnswer *int `json:"correctAnswer" binding:"required"`
+	WrongAnswer   *int `json:"wrongAnswer" binding:"required"`
+	GroupId       int  `json:"groupId" binding:"required"`
 }
 
 // @Summary Get stats for user
@@ -66,8 +66,8 @@ func CreateStats(c *gin.Context) {
 
 	n := models.Stats{}
 
-	n.CorrectAnswer = input.CorrectAnswer
-	n.WrongAnswer = input.WrongAnswer
+	n.CorrectAnswer = *input.CorrectAnswer
+	n.WrongAnswer = *input.WrongAnswer
 	n.GroupId = input.GroupId
 	n.Grade = float64(n.CorrectAnswer) / (float64(n.CorrectAnswer) + float64(n.WrongAnswer)) * 100
 	n.UserId = int(uid)
