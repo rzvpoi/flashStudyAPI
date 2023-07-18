@@ -19,7 +19,7 @@ import (
 // @description     FlashStudy API in Go using Gin framework.
 
 // @contact.name   Tudor Poienariu
-// @contact.url    https://linkedin.com/in/tudor-poienariu-635a48232
+// @contact.url    https://www.linkedin.com/in/razvan-poienariu/
 // @contact.email  razvanpoienariu@gmail.com
 
 // @host      flashstudy.razvanpoienariu.net
